@@ -4,7 +4,7 @@ package life.sbgirl.community.community.dto;
  * @Author : sbgirl
  * @Date: 2020/11/16 0:58
  **/
-public class GithunUser {
+public class GithubUser {
     private String name;
     private long  id;
     private String bio;
