@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Author : sbgirl
  * @Date: 2020/11/16 0:09
@@ -27,7 +29,8 @@ public class AuthorizeController {
 
     @GetMapping("/callback")
     public  String callback(@RequestParam(name = "code") String code,
-                            @RequestParam(name="state")String state){
+                            @RequestParam(name="state")String state,
+                            HttpServletRequest request){
         
         AccessTokenDTO accesstokendto = new AccessTokenDTO();
         accesstokendto.setCode(code);
@@ -38,9 +41,17 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accesstokendto);
         GithubUser userone = githubProvider.getuser(accessToken);
         System.out.println(userone.getName());
-        System.out.println(userone.getId());
-        System.out.println(userone.getBio());
-        return "index";
+        if (userone!=null){
+            request.getSession().setAttribute("user",userone);
+            return "redirect:/";
+            //登录成功，写cookie session
+
+
+        }else {
+            //登录失败 重新登录
+            return "redirect:/";
+        }
+
     }
 
 }
