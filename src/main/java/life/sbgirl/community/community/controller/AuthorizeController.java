@@ -57,11 +57,11 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(userone.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModify(user.getGmtCreate());
+            user.setAvatarUrl(userone.getAvatarUrl());
             userMapper.insert(user);
             response.addCookie(new Cookie("token",token));
             //登录成功，写cookie session
             return "redirect:/";
-
         }else {
             //登录失败 重新登录
             return "redirect:/";
