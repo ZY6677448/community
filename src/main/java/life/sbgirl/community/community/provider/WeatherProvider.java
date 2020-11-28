@@ -22,12 +22,12 @@ import java.util.Map;
  **/
 @Component
 public class WeatherProvider {
-    public  Realtime getTemperature() throws UnsupportedEncodingException {
-        String city = java.net.URLEncoder.encode("上海", "utf-8");
+    public  Realtime getTemperature(String city) throws UnsupportedEncodingException {
+        String place = java.net.URLEncoder.encode(city, "utf-8");
         String key = "1fbccc3fc2db1e68d7709ba2debdddea";
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://apis.juhe.cn/simpleWeather/query?city="+city+"&key="+key)
+                .url("http://apis.juhe.cn/simpleWeather/query?city="+place+"&key="+key)
                 .build();
         Call call = client.newCall(request);
         try {

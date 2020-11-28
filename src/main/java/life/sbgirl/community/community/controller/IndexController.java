@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
@@ -39,7 +40,11 @@ public class IndexController {
     public String index(HttpServletRequest request,
                         Model model,
                         @RequestParam(name="page",defaultValue = "1") Integer page,
-                        @RequestParam(name="size",defaultValue = "8") Integer size) throws UnsupportedEncodingException {
+                        @RequestParam(name="size",defaultValue = "8") Integer size,
+                        @RequestParam(name="temperature",defaultValue = "") String temperature,
+                        @RequestParam(name="direct",defaultValue = "") String direct,
+                        @RequestParam(name="city",defaultValue = "") String city
+                        ) throws UnsupportedEncodingException {
         Cookie[] cookies = request.getCookies();
         if (cookies!=null) {
             for (Cookie cookie : cookies) {
@@ -56,11 +61,33 @@ public class IndexController {
 
         PageDTO pagination =questionService.list(page,size);
         model.addAttribute("pagination",pagination);
-        //获取明日温度
-        Realtime t=weatherProvider.getTemperature();
-        model.addAttribute("temperature",t.getTemperature());
-        model.addAttribute("direct",t.getDirect());
+        model.addAttribute("direct",java.net.URLDecoder.decode(direct, "utf-8"));
+        model.addAttribute("temperature",temperature);
+        model.addAttribute("city",java.net.URLDecoder.decode(city, "utf-8"));
+
             return "index";
+    }
+    @PostMapping("/")
+    public String goindex( @RequestParam("city") String city,
+                           Model model) throws UnsupportedEncodingException {
+        //获取明日温度
+        if (city!=null){
+            Realtime t=weatherProvider.getTemperature(city);
+            String temperature=t.getTemperature();
+            String direct=t.getDirect();
+            System.out.println(city);
+            System.out.println(temperature);
+            System.out.println(direct);
+            String url="redirect:/?temperature="+temperature+"&direct="+java.net.URLEncoder.encode(direct, "utf-8")+"&city="+java.net.URLEncoder.encode(city, "utf-8");
+            System.out.println(url);
+            return url;
+           // return "redirect:/";
+        }
+        else {
+            return "redirect:/";
+        }
+
+
     }
 
 }

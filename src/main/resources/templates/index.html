@@ -72,10 +72,36 @@
 
             <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                 <h3>热门话题</h3>
-                <h4>上海实时气温</h4>
-                <h4 th:text="${temperature}"></h4>
-                <h4>上海风力</h4>
-                <h4 th:text="${direct}"></h4>
+                <div class="jumbotron">
+                    <h2>Take Me Hand</h2>
+                    <h4>DAISHI DANCE/Cecile Corbel </h4>
+                    <div style="font-size: revert">
+                        <span>Take my hand now</span><br>
+                        <span>Stay close to me</span><br>
+                        <span>Be my lover</span><br>
+                        <span>Won't you let me go</span><br>
+                        <span>Close your eyes now</span><br>
+                        <span>And you will see</span><br>
+                        <span>For you and me</span><br>
+                    </div>
+
+                </div>
+                <div>
+                    <form  action="/" method="post" class="navbar-form navbar-left" role="search">
+                        <div  class="form-group">
+                            <input  type="text" id="city" name="city" class="form-control" placeholder="输入城市，查询天气">
+                        </div>
+                        <button type="submit" class="btn btn-default">查询</button>
+                    </form>
+                </div>
+                <div style="padding-top: 60px">
+                    <h4>城市</h4>
+                    <h4 th:text="${city}"></h4>
+                    <h4>实时气温</h4>
+                    <h4 th:text="${temperature}"></h4>
+                    <h4>风力</h4>
+                    <h4 th:text="${direct}"></h4>
+                </div>
             </div>
 
         </div>
